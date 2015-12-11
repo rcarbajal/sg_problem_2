@@ -26,6 +26,11 @@ class Player extends DataObject {
 			else throw new InvalidArgumentException(__METHOD__ . "::Invalid player ID specified. Line: " . __LINE__);
 		} //end if
 	} //end method __construct
+
+	public function GetHash() {
+		//create a hash using the name and the salt for the sake of simplicity for this code challenge problem
+		return crypt($this->name, $this->salt);
+	} //end method GetHash
 	
 	public function Delete() {
 		//begin transaction

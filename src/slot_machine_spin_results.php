@@ -28,7 +28,7 @@ try {
 		$player = new Player($playerId);
 		
 		//only update if the specified hash is authenticated
-		if($hash == $player->hash) {
+		if($hash == $player->GetHash()) {
 			$netCredits = $coinsWon - $coinsBet;
 			$player->credits += $netCredits;
 			$player->lifetimeSpins += 1;
