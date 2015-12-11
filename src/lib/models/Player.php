@@ -70,7 +70,7 @@ class Player extends DataObject {
 		parent::Clear();
 		$this->name = "";
 		$this->credits = "";
-		$this->lifetimeSpins = "":
+		$this->lifetimeSpins = "";
 		$this->salt = "";
 	} //end method Clear
 	
@@ -95,7 +95,7 @@ VALUES
 SQL;
 
 		//prepare query
-		$sth->self:prepare($query);
+		$sth = self::prepare($query);
 		if(!$sth) {
 			if($internalTrans) self::rollback();
 			throw new DatabaseException(__METHOD__ . "::Error preparing Player item data insert query. Query: $query; Error: " . self::get_error_str($sth) . "; Line: " . __LINE__);
@@ -196,14 +196,14 @@ SQL;
 		//bind columns
 		$sth->bindColumn('name', $this->name);
 		$sth->bindColumn('credits', $this->credits);
-		$sth->bindColumn('lifetime_spins', $this->lifetimeSpins):
+		$sth->bindColumn('lifetime_spins', $this->lifetimeSpins);
 		$sth->bindColumn('salt_val', $this->salt);
 		$sth->bindColumn('ts_created', $this->created);
 		$sth->bindColumn('ts_updated', $this->updated);
 		
 		//fetch bound columns
 		$sth->fetch(PDO::FETCH_BOUND);
-		if(!isset($this->name) && $this->name !== "")
+		if(!isset($this->name) || $this->name === "")
 			throw new RecordNotFoundException(__METHOD__ . "::Record not found for given ID: {$this->id}; Line: " . __LINE__);
 		
 		//release DB resources
